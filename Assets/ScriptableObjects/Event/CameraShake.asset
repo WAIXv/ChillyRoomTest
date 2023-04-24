@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ff19f5791264a4282c90799f776edac, type: 3}
-  m_Name: BulletFactory
+  m_Script: {fileID: 11500000, guid: 3678eaec74c144c6a763e2d631cf824c, type: 3}
+  m_Name: CameraShake
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 2782323621138330565, guid: 9d9f9f3f5ca78154a8a261ceec02d265, type: 3}

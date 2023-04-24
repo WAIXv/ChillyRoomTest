@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+﻿using System;
+using UnityEngine;
 
 namespace Charactor
 {
@@ -15,9 +15,18 @@ namespace Charactor
         [Header("Descend")] 
         public float ClampSpeed;
         public float GravityMultiplier;
-        
-        [Header("Shoot")]
-        public float ShootInterval;
-        public float MaxAngleOffest;
+
+        [Header("PrimaryAttack")]
+        public float PrimaryInterval;
+        public float PrimaryShakeMultiplier = 0.1f;
+        public FireGroup[] PrimaryFireGroup;
+    }
+
+    [Serializable]
+    public struct FireGroup
+    {
+        public Vector3 Offset;
+        public float Angle;
+        public float RandomAngle;
     }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2782323621138330555}
   - component: {fileID: 2782323621138330565}
   - component: {fileID: 2782323621138330560}
-  - component: {fileID: 2782323621138330567}
   - component: {fileID: 2782323621138330566}
   m_Layer: 0
   m_Name: Bullet
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2782323621138330559}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,8 +99,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18797b4b0f604a04a00513b24ba6b899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layers:
+    serializedVersion: 2
+    m_Bits: 72
   _sprite: {fileID: 2043456081251399805, guid: 619d4367cbfec8240ab1b419d81a22e7, type: 3}
-  _speed: 10
+  _speed: 40
   _pool: {fileID: 11400000, guid: 8ae4d1bca636c95489570b791d4d1dd1, type: 2}
 --- !u!114 &2782323621138330560
 MonoBehaviour:
@@ -116,36 +118,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackValue: 1
---- !u!114 &2782323621138330567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2782323621138330559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 946ff5ba62e04ee4bff1c98ef16ea78b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enterZone:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2782323621138330560}
-        m_TargetAssemblyTypeName: Charactor.Attacker, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _layers:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!70 &2782323621138330566
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

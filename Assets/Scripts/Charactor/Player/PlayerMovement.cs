@@ -1,13 +1,14 @@
 ﻿using System;
 using Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace Charactor
 {
     public class PlayerMovement : MonoBehaviour
     {
-        #region 基础组件处理
+        #region 基础组件&输入处理
 
         [SerializeField] private InputReader _inputReader;
         [SerializeField] private PlayerData _data;
@@ -32,7 +33,8 @@ namespace Charactor
             set => _moveInput = value;
         }
         public bool OnGround => _footBox.IsTouchingLayers(_groundLayer);
-        
+        public bool OnFire => _playerGun.PrimaryInput || _playerGun.SecondaryAttackInput;
+
         private void Awake()
         {
             animator = GetComponent<Animator>();
@@ -65,8 +67,9 @@ namespace Charactor
         #endregion
 
         #endregion
-
-        [SerializeField] private Transform _playerGun;
+        
+        [SerializeField] private PlayerGun _playerGun;
+        [SerializeField] private Transform _gunTrans;
 
         private Vector2 _moveVector;
         private float _previousInput = 0f;
@@ -84,19 +87,30 @@ namespace Charactor
             
             _moveVector.x = MoveInput * _data.MoveSpeed;
             animator.SetBool(Move,OnGround && Mathf.Abs(MoveInput) > .02f);
-            if (Mathf.Abs(MoveInput) > .02f && Math.Abs(MoveInput - _previousInput) > .02f)
-            {
-                FaceToInput();
-                _playerGun.rotation = Quaternion.Euler(0,MoveInput > 0 ? 0 : -180f ,0);
-                _previousInput = MoveInput;
-            }
 
+            //跳跃
             if (JumpInput)
             {
                 animator.SetBool(Move,false);
                 animator.SetTrigger(Jump);
                 _moveVector.y = _data.JumpSpeed;
                 JumpInput = false;
+            }
+            
+            //开火
+            if (OnFire)
+            {
+                transform.rotation = Quaternion.Euler(0, 
+                        _playerGun.MousePositon.x > transform.position.x ? 0 : -180f, 0);
+                return;
+            }
+            
+            //不开火转身
+            if (Mathf.Abs(MoveInput) > .02f && Math.Abs(MoveInput - _previousInput) > .02f)
+            {
+                FaceToInput();
+                _gunTrans.rotation = Quaternion.Euler(0,MoveInput > 0 ? 0 : -180f ,0);
+                _previousInput = MoveInput;
             }
         }
 

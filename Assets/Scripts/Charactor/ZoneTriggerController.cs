@@ -17,7 +17,6 @@ public class ZoneTriggerController : MonoBehaviour
 		if ((1 << other.gameObject.layer & _layers) != 0)
 		{
 			_enterZone.Invoke(true, other.gameObject);
-			Debug.Log("Enter");
 		}
 	}
 

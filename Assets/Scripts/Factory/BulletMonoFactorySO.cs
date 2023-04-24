@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Factory
 {
     [CreateAssetMenu(fileName = "NewBulletFactory", menuName = "Factory/Bullet Factory")]
-    public class BulletFactorySO : FactorySO<BulletMono>
+    public class BulletMonoFactorySO : FactorySO<BulletMono>
     {
         public BulletMono _prefab = default;
         

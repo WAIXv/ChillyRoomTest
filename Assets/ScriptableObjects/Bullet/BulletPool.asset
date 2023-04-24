@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc4ca4a065a48d8b76e44a6e97cd7f5, type: 3}
   m_Name: BulletPool
   m_EditorClassIdentifier: 
+  _factory: {fileID: 11400000, guid: 1da59c9edd28e5d40b38e805b430c5e4, type: 2}
