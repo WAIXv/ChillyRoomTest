@@ -20,6 +20,7 @@ namespace Charactor
         private bool _primaryInput;
         private bool _secondaryAttackInput;
         private UnityEngine.Camera _camera;
+        private Animator _animator;
         
         public bool PrimaryInput
         {
@@ -36,6 +37,7 @@ namespace Charactor
         private void Awake()
         {
             _camera = UnityEngine.Camera.main;
+            _animator = GetComponent<Animator>();
             _bulletPool.Prewarm(_bulletPool._initialPoolSize);
         }
 
@@ -68,6 +70,12 @@ namespace Charactor
         [SerializeField] private Transform _smoothTarget;
         [SerializeField] private float smoothTime = 0.01f;
 
+        [Header("Firing Effect")] 
+        [SerializeField] private Transform _shellPoint;
+        [SerializeField] private GameObject _shellPrefab;
+        [SerializeField] private float _shellSpeed = 5f;
+        [SerializeField] private GameObject _falshPrefab;
+
         [Header("PrimaryAttack")] 
         [SerializeField] private Transform _firePoint;
         [SerializeField] private BulletMonoPoolSO _bulletPool;
@@ -78,6 +86,7 @@ namespace Charactor
         private float velocity;
         private Vector2 _smoothPos;
         private float _prevoiusPrimaryAttack = 0f;
+        private static readonly int Fire = Animator.StringToHash("Fire");
 
         private void Update()
         {
@@ -85,7 +94,21 @@ namespace Charactor
 
             if (PrimaryInput)
             {
-                transform.rotation = Quaternion.Euler(0,0,Mathf.Atan2(MousePositon.y - transform.position.y, MousePositon.x - transform.position.x) * Mathf.Rad2Deg);
+                float y, z;
+                if (MousePositon.x > transform.position.x)
+                {
+                    y = 0;
+                    z = Mathf.Atan2(MousePositon.y - transform.position.y, 
+                        MousePositon.x - transform.position.x) * Mathf.Rad2Deg;
+                }
+                else
+                {
+                    y = 180f;
+                    z = 180f - Mathf.Atan2(MousePositon.y - transform.position.y, 
+                        MousePositon.x - transform.position.x) * Mathf.Rad2Deg;
+                }
+
+                transform.rotation = Quaternion.Euler(0,y,z);
                 PrimaryAttack();
             }
             else
@@ -108,6 +131,13 @@ namespace Charactor
             
             //角色后坐
             _playerTrans.position -= (Vector3)dir;
+            
+            //抛壳
+            var shell = Instantiate(_shellPrefab, _shellPoint.position, Quaternion.Euler(0,0,Random.Range(0,360)));
+            shell.GetComponent<Rigidbody2D>().velocity = (_shellPoint.right.x < 0 ? Quaternion.Euler(0,0,-30f + Random.Range(-2,2)) : Quaternion.Euler(0,0,30f + Random.Range(-2,2))) *_shellPoint.right * _shellSpeed;
+            
+            //开火动画
+            _animator.SetTrigger(Fire);
             
             //子弹发射
             foreach (var fire in _data.PrimaryFireGroup)

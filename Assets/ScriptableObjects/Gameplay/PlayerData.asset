@@ -16,15 +16,15 @@ MonoBehaviour:
   JumpSpeed: 15
   ClampSpeed: -20
   GravityMultiplier: 4
-  PrimaryInterval: 0.1
-  PrimaryShakeMultiplier: 0.2
+  PrimaryInterval: 0.06
+  PrimaryShakeMultiplier: 0.13
   PrimaryFireGroup:
   - Offset: {x: 0, y: 0, z: 0}
     Angle: 0
-    RandomAngle: 5
+    RandomAngle: 0
   - Offset: {x: 0, y: 0, z: 0}
-    Angle: -10
-    RandomAngle: 5
+    Angle: -7
+    RandomAngle: 3
   - Offset: {x: 0, y: 0, z: 0}
-    Angle: 10
-    RandomAngle: 5
+    Angle: 7
+    RandomAngle: 3

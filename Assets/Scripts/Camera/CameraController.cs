@@ -22,7 +22,6 @@ namespace Camera
         
         private void OnCameraShake(Vector3 info)
         {
-            Debug.Log($"【{info.x},{info.y}】,【{info.z}】");
             StartCoroutine(ShakeCamera(info, info.z));
         }
 
