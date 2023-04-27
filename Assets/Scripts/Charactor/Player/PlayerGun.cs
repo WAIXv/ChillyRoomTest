@@ -41,6 +41,7 @@ namespace Charactor
             _bulletPool.Prewarm(_bulletPool._initialPoolSize);
             _shellParent = new GameObject("GunShells").transform;
             _impulseSource = GetComponent<CinemachineImpulseSource>();
+            _shellPool.Prewarm(_shellPool._initialPoolSize);
         }
 
         private void OnEnable()
@@ -74,7 +75,7 @@ namespace Charactor
 
         [Header("Firing Effect")] 
         [SerializeField] private Transform _shellPoint;
-        [SerializeField] private GameObject _shellPrefab;
+        [SerializeField] private SelfReturnPoolSO _shellPool;
         [SerializeField] private float _shellSpeed = 5f;
 
         [Header("PrimaryAttack")] 
@@ -135,7 +136,9 @@ namespace Charactor
             _playerTrans.position -= (Vector3)dir;
             
             //抛壳
-            var shell = Instantiate(_shellPrefab, _shellPoint.position, Quaternion.Euler(0,0,Random.Range(0,360)));
+            var shell = _shellPool.Request();
+            shell.transform.position = _shellPoint.position;
+            shell.transform.rotation = Quaternion.Euler(0,0,Random.Range(0,360));
             shell.transform.SetParent(_shellParent);
             shell.GetComponent<Rigidbody2D>().velocity = (_shellPoint.right.x < 0 ? Quaternion.Euler(0,0,-30f + Random.Range(-2,2)) : Quaternion.Euler(0,0,30f + Random.Range(-2,2))) *_shellPoint.right * _shellSpeed;
             

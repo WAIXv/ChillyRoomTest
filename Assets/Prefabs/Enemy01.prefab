@@ -224,6 +224,7 @@ MonoBehaviour:
   _hitBackForce: 15
   _dieWaitTime: 1.5
   _pool: {fileID: 11400000, guid: 2ece97fee88100549ae6c8fa5758127c, type: 2}
+  _dieBodyPool: {fileID: 11400000, guid: 62acdf5d4d325f745b040aeb5eef0c24, type: 2}
 --- !u!114 &2448314327622578296
 MonoBehaviour:
   m_ObjectHideFlags: 0

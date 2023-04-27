@@ -13,6 +13,7 @@ namespace Charactor.Enemy
         [SerializeField] private float _hitBackForce;
         [SerializeField] private float _dieWaitTime = 1f;
         [SerializeField] private EnemyPoolSO _pool;
+        [SerializeField] private SelfReturnPoolSO _dieBodyPool;
         
         private BoxCollider2D _detectBox;
         private BoxCollider2D _hitBox;
@@ -30,6 +31,8 @@ namespace Charactor.Enemy
             _animator = GetComponent<Animator>();
             _hitBox = GetComponent<BoxCollider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            
+            _dieBodyPool.Prewarm(_dieBodyPool._initialPoolSize);
 
             _damageable.Ondie += () =>
             {
@@ -96,9 +99,10 @@ namespace Charactor.Enemy
                 yield return null;
             }
 
-            var emptygo = new GameObject("SpriteOnlyEnemy");
-            var go = Instantiate(emptygo,transform.position, transform.rotation);
-            var spriteRenderer = go.AddComponent<SpriteRenderer>();
+            var go = _dieBodyPool.Request();
+            go.transform.position = transform.position;
+            go.transform.rotation = transform.rotation;
+            var spriteRenderer = go.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = _spriteRenderer.sprite;
             spriteRenderer.flipX = _spriteRenderer.flipX;
             go.transform.localScale = transform.localScale;
