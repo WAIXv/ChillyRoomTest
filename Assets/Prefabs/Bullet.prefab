@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2782323621138330565}
   - component: {fileID: 2782323621138330560}
   - component: {fileID: 2782323621138330566}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -105,6 +105,7 @@ MonoBehaviour:
   _sprite: {fileID: 2043456081251399805, guid: 619d4367cbfec8240ab1b419d81a22e7, type: 3}
   _speed: 60
   _pool: {fileID: 11400000, guid: 8ae4d1bca636c95489570b791d4d1dd1, type: 2}
+  _muzzleEffectPool: {fileID: 11400000, guid: e237728df3d75cb4db7f093dc97fa3c0, type: 2}
 --- !u!114 &2782323621138330560
 MonoBehaviour:
   m_ObjectHideFlags: 0

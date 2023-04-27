@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Charactor
 {
@@ -15,10 +12,7 @@ namespace Charactor
         [Header("Combat")] 
         [SerializeField] private float _hitFlashTime;
         [SerializeField] private Material _hitFlashMaterial;
-        
-        [Header("Die")] 
-        [SerializeField] private float _dieFreezeDuration;
-        
+
         private SpriteRenderer _spriteRenderer;
         
         private Material _originMat;
@@ -41,9 +35,7 @@ namespace Charactor
             Ondie += () =>
             {
                 Debug.Log(gameObject.name + " Died");
-
-                Time.timeScale = 0f;
-                StartCoroutine(TimeScaleBack(_dieFreezeDuration));
+                _currentHealthSO.RestoreHealth(_initHealth);
             };
         }
 
@@ -64,19 +56,10 @@ namespace Charactor
                 IsDead = true;
                 Ondie.Invoke();
             }
-            Debug.Log(gameObject.name + " Received Attack: 【Value】" + delta + ",【NewHealth】" + _currentHealthSO.CurrentHealth);
+            // Debug.Log(gameObject.name + " Received Attack: 【Value】" + delta + ",【NewHealth】" + _currentHealthSO.CurrentHealth);
         }
         
         private void HitFlashOff() => _spriteRenderer.material = _originMat;
-        
-        private IEnumerator TimeScaleBack(float stopTime)
-        {
-            var enterTime = Time.unscaledTime;
-            while (Time.unscaledTime - enterTime < stopTime)
-            {
-                yield return null;
-            }
-            Time.timeScale = 1;
-        }
+
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Cinemachine;
 using Event;
 using Input;
 using Pool;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Charactor
@@ -21,7 +19,9 @@ namespace Charactor
         private bool _secondaryAttackInput;
         private UnityEngine.Camera _camera;
         private Animator _animator;
-        
+        private Transform _shellParent;
+        private CinemachineImpulseSource _impulseSource;
+
         public bool PrimaryInput
         {
             get => _primaryInput;
@@ -39,6 +39,8 @@ namespace Charactor
             _camera = UnityEngine.Camera.main;
             _animator = GetComponent<Animator>();
             _bulletPool.Prewarm(_bulletPool._initialPoolSize);
+            _shellParent = new GameObject("GunShells").transform;
+            _impulseSource = GetComponent<CinemachineImpulseSource>();
         }
 
         private void OnEnable()
@@ -74,11 +76,10 @@ namespace Charactor
         [SerializeField] private Transform _shellPoint;
         [SerializeField] private GameObject _shellPrefab;
         [SerializeField] private float _shellSpeed = 5f;
-        [SerializeField] private GameObject _falshPrefab;
 
         [Header("PrimaryAttack")] 
         [SerializeField] private Transform _firePoint;
-        [SerializeField] private BulletMonoPoolSO _bulletPool;
+        [SerializeField] private BulletPoolSO _bulletPool;
 
         [Header("Broadcasting On")] 
         [SerializeField] private Vector3EventChannelSO _cameraShakeEvent;
@@ -127,13 +128,15 @@ namespace Charactor
             
             //相机抖动
             var dir = (MousePositon-(Vector2)transform.position).normalized * _data.PrimaryShakeMultiplier;
-            _cameraShakeEvent.RaiseEvent(new Vector3(dir.x, dir.y, _data.PrimaryInterval));
+            // _cameraShakeEvent.RaiseEvent(new Vector3(dir.x, dir.y, _data.PrimaryInterval));
+            _impulseSource.GenerateImpulse(dir);
             
             //角色后坐
             _playerTrans.position -= (Vector3)dir;
             
             //抛壳
             var shell = Instantiate(_shellPrefab, _shellPoint.position, Quaternion.Euler(0,0,Random.Range(0,360)));
+            shell.transform.SetParent(_shellParent);
             shell.GetComponent<Rigidbody2D>().velocity = (_shellPoint.right.x < 0 ? Quaternion.Euler(0,0,-30f + Random.Range(-2,2)) : Quaternion.Euler(0,0,30f + Random.Range(-2,2))) *_shellPoint.right * _shellSpeed;
             
             //开火动画

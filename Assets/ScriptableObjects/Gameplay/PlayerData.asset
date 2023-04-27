@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   MoveSpeed: 8
-  JumpSpeed: 15
-  ClampSpeed: -20
-  GravityMultiplier: 4
+  JumpSpeed: 30
+  ClampSpeed: -40
+  GravityMultiplier: 7
   PrimaryInterval: 0.06
   PrimaryShakeMultiplier: 0.13
   PrimaryFireGroup:

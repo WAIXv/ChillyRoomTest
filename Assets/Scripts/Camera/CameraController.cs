@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Event;
+using Input;
 using UnityEngine;
 
 namespace Camera
@@ -9,7 +10,7 @@ namespace Camera
     {
         [Header("Listening to")] 
         [SerializeField] private Vector3EventChannelSO _cameraShakeEvent;
-
+        
         private void OnEnable()
         {
             _cameraShakeEvent.OnEventRaised += OnCameraShake;
@@ -19,7 +20,7 @@ namespace Camera
         {
             _cameraShakeEvent.OnEventRaised -= OnCameraShake;
         }
-        
+
         private void OnCameraShake(Vector3 info)
         {
             StartCoroutine(ShakeCamera(info, info.z));
